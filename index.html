@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Html-CSS-JS Project Suite | Interactive Vanilla JS Showcase</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            900: '#134e4a'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace'],
+                        cursive: ['Caveat', 'cursive', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Base Glassmorphic and Custom Animations from Repository */
+        @keyframes roll3d {
+            0% { transform: rotateY(0deg) rotateX(0deg) scale(0.9); }
+            50% { transform: rotateY(360deg) rotateX(360deg) scale(1.18); }
+            100% { transform: rotateY(720deg) rotateX(720deg) scale(1); }
+        }
+        .animate-roll-3d {
+            animation: roll3d 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        /* Neumorphic Search Bar Styles from Projects/Search_bar/Css/style.css */
+        .neu-search-box {
+            background-color: #f0f4f8;
+            border-radius: 50px;
+            box-shadow: 6px 6px 14px rgba(163, 177, 198, 0.6), -6px -6px 14px rgba(255, 255, 255, 0.9);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .neu-search-box {
+            background-color: #1e293b;
+            box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.5), -4px -4px 10px rgba(255, 255, 255, 0.05);
+        }
+        .neu-search-box.collapsed {
+            width: 54px !important;
+            padding-left: 0;
+            padding-right: 0;
+        }
+        .neu-search-box.collapsed .search-inner-input {
+            width: 0 !important;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .neu-search-box.collapsed .search-mic-icon {
+            opacity: 0;
+            transform: scale(0.5);
+            pointer-events: none;
+        }
+
+        /* Testimonial slider card perspective */
+        .testimonial-glow {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
+            box-shadow: 0 15px 35px -5px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Calculator glassmorphic surface from Projects/Basic_Calculator/style.css */
+        .calc-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .dark .calc-glass {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 116, 139, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(100, 116, 139, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+    <!-- TOP GLOBAL HEADER / NAV -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand / Logo -->
+                <a href="#overview" onclick="switchMainTab('dashboard')" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-md group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-2">
+                            <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-teal-600 to-indigo-600 dark:from-teal-400 dark:to-indigo-400 bg-clip-text text-transparent">VanillaJS Hub</span>
+                            <span class="text-xs uppercase px-2 py-0.5 rounded-full bg-teal-100 text-teal-800 dark:bg-teal-950 dark:text-teal-300 font-semibold border border-teal-300 dark:border-teal-700">v1.0 Live</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">Html-CSS-JS-Project Runtime Bundle</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Tabs -->
+                <nav class="hidden md:flex items-center space-x-1" id="main-nav-links">
+                    <button onclick="switchMainTab('dashboard')" id="nav-btn-dashboard" class="px-3 py-2 text-sm font-medium rounded-lg text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-shapes"></i> All Apps
+                    </button>
+                    <button onclick="switchMainTab('calculator')" id="nav-btn-calculator" class="px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-calculator"></i> Calculator
+                    </button>
+                    <button onclick="switchMainTab('dice')" id="nav-btn-dice" class="px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-dice"></i> Dice Roll
+                    </button>
+                    <button onclick="switchMainTab('search')" id="nav-btn-search" class="px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search Bar
+                    </button>
+                    <button onclick="switchMainTab('slider')" id="nav-btn-slider" class="px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i> Testimonial Slider
+                    </button>
+                    <button onclick="switchMainTab('docs')" id="nav-btn-docs" class="px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-book-open"></i> Docs & Code
+                    </button>
+                </nav>
+
+                <!-- Right Action Bar -->
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <!-- Audio Sound Effects Toggle -->
+                    <button id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Web Audio SFX" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <i id="soundIcon" class="fa-solid fa-volume-high text-teal-600 dark:text-teal-400"></i>
+                    </button>
+
+                    <!-- Dark Mode Toggle -->
+                    <button id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <i id="themeIcon" class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <!-- GitHub Repository Link -->
+                    <a href="https://github.com/Jeevan-Tec/Html-CSS-JS-Project" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 shadow-sm transition-all border border-slate-700">
+                        <i class="fa-brands fa-github text-sm"></i>
+                        <span>Source Repo</span>
+                    </a>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none">
+                        <i class="fa-solid fa-bars text-lg" id="mobileMenuIcon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 px-4 pt-2 pb-4 space-y-1">
+            <button onclick="switchMainTab('dashboard'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-shapes text-teal-600 w-5"></i> All Apps Dashboard
+            </button>
+            <button onclick="switchMainTab('calculator'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-calculator text-blue-500 w-5"></i> Basic Calculator
+            </button>
+            <button onclick="switchMainTab('dice'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-dice text-amber-500 w-5"></i> Dice Roll Simulator
+            </button>
+            <button onclick="switchMainTab('search'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-magnifying-glass text-emerald-500 w-5"></i> Animated Search Bar
+            </button>
+            <button onclick="switchMainTab('slider'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-sliders text-indigo-500 w-5"></i> Testimonial Slider
+            </button>
+            <button onclick="switchMainTab('docs'); toggleMobileMenu()" class="w-full text-left px-3 py-2 rounded-md font-medium text-sm text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-3">
+                <i class="fa-solid fa-book-open text-purple-500 w-5"></i> Source Code & Docs
+            </button>
+            <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
+                <a href="https://github.com/Jeevan-Tec/Html-CSS-JS-Project" target="_blank" rel="noopener noreferrer" class="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg bg-slate-900 dark:bg-slate-800 text-white">
+                    <i class="fa-brands fa-github"></i> Open Repository on GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- ============================================================= -->
+        <!-- VIEW 1: MASTER DASHBOARD (All mini apps running simultaneously) -->
+        <!-- ============================================================= -->
+        <section id="view-dashboard" class="space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-700 via-indigo-800 to-purple-900 text-white p-6 sm:p-10 shadow-xl">
+                <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+                <div class="relative z-10 max-w-3xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold uppercase tracking-wider mb-3 border border-white/20">
+                        <i class="fa-solid fa-code text-teal-300"></i> Pure Vanilla JS Architecture
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+                        Html-CSS-JS Project Suite
+                    </h1>
+                    <p class="mt-3 text-slate-200 text-sm sm:text-base leading-relaxed">
+                        A fully compiled interactive workbench synthesizing 4 classic vanilla front-end applications:
+                        <strong>Basic Calculator</strong>, <strong>Dice Roll Simulator</strong>, <strong>Animated Live Search</strong>, and <strong>Testimonial Slider Carousel</strong>.
+                    </p>
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <button onclick="switchMainTab('calculator')" class="px-4 py-2 bg-white text-slate-900 font-semibold rounded-xl text-sm shadow hover:bg-slate-100 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-calculator text-indigo-600"></i> Try Calculator
+                        </button>
+                        <button onclick="switchMainTab('dice')" class="px-4 py-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-xl text-sm transition-all flex items-center gap-2 border border-white/30">
+                            <i class="fa-solid fa-dice text-amber-300"></i> Roll Dice Simulator
+                        </button>
+                        <button onclick="switchMainTab('docs')" class="px-4 py-2 bg-black/30 hover:bg-black/40 backdrop-blur-sm text-white font-medium rounded-xl text-sm transition-all flex items-center gap-2 border border-white/10">
+                            <i class="fa-solid fa-code"></i> Inspect Source Code
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Navigation Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Card 1 -->
+                <div onclick="switchMainTab('calculator')" class="group cursor-pointer bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-teal-500 dark:hover:border-teal-500 transition-all">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-teal-100 dark:bg-teal-950 text-teal-600 dark:text-teal-400 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-calculator"></i>
+                        </div>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Project 1</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">Basic Calculator</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">Arithmetic expressions, keyboard handling, memory storage, and glassmorphism styling.</p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-teal-600 dark:text-teal-400 group-hover:translate-x-1 transition-transform">
+                        Launch App <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div onclick="switchMainTab('dice')" class="group cursor-pointer bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-amber-500 dark:hover:border-amber-500 transition-all">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-dice"></i>
+                        </div>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Project 2</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Dice Roll Simulator</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">Randomized dice rolls, 3D CSS tumbling animations, multi-dice support, and full history.</p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-amber-600 dark:text-amber-400 group-hover:translate-x-1 transition-transform">
+                        Launch App <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div onclick="switchMainTab('search')" class="group cursor-pointer bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-emerald-500 dark:hover:border-emerald-500 transition-all">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Project 3</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">Animated Search Bar</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">Expandable neumorphic input, live match highlighting, voice search Web API, and suggestions.</p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">
+                        Launch App <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div onclick="switchMainTab('slider')" class="group cursor-pointer bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-500 dark:hover:border-indigo-500 transition-all">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-lg group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">Project 4</span>
+                    </div>
+                    <h3 class="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">Testimonial Slider</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">Autoplay carousel, smooth fades, custom testimonial creator, and interactive timeline.</p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-indigo-600 dark:text-indigo-400 group-hover:translate-x-1 transition-transform">
+                        Launch App <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIVE PREVIEW QUAD-VIEW (All 4 in dynamic mini panels) -->
+            <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-slate-900 dark:text-white">Live Execution Grid</h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">All 4 projects active and interacting concurrently in realtime</p>
+                    </div>
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-950/80 dark:text-green-300 border border-green-300 dark:border-green-800">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> 4 Runtimes Ready
+                    </span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Mini Calculator Preview Frame -->
+                    <div class="bg-gradient-to-br from-teal-50 to-blue-50 dark:from-slate-900 dark:to-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                <span class="ml-2 text-xs font-bold text-slate-700 dark:text-slate-300">Basic Calculator Compact</span>
+                            </div>
+                            <button onclick="switchMainTab('calculator')" class="text-xs font-semibold text-teal-600 dark:text-teal-400 hover:underline">Full View &rarr;</button>
+                        </div>
+                        <div class="flex justify-center my-auto py-2">
+                            <!-- Embedded mini calculator -->
+                            <div class="w-full max-w-xs bg-white/80 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-xl shadow border border-slate-200 dark:border-slate-700">
+                                <input type="text" id="mini-calc-display" readonly value="0" class="w-full mb-3 px-3 py-2 text-right text-xl font-mono font-bold bg-slate-100 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white">
+                                <div class="grid grid-cols-4 gap-1.5 text-sm font-semibold">
+                                    <button onclick="miniCalcInput('C')" class="p-2 bg-red-500 text-white rounded hover:bg-red-600">C</button>
+                                    <button onclick="miniCalcInput('/')" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">/</button>
+                                    <button onclick="miniCalcInput('*')" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">×</button>
+                                    <button onclick="miniCalcInput('-')" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">−</button>
+                                    <button onclick="miniCalcInput('7')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">7</button>
+                                    <button onclick="miniCalcInput('8')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">8</button>
+                                    <button onclick="miniCalcInput('9')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">9</button>
+                                    <button onclick="miniCalcInput('+')" class="p-2 bg-blue-500 text-white rounded hover:bg-blue-600">+</button>
+                                    <button onclick="miniCalcInput('4')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">4</button>
+                                    <button onclick="miniCalcInput('5')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">5</button>
+                                    <button onclick="miniCalcInput('6')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">6</button>
+                                    <button onclick="miniCalcInput('=')" class="p-2 bg-emerald-500 text-white rounded row-span-2 hover:bg-emerald-600 flex items-center justify-center font-bold text-base">=</button>
+                                    <button onclick="miniCalcInput('1')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">1</button>
+                                    <button onclick="miniCalcInput('2')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">2</button>
+                                    <button onclick="miniCalcInput('3')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">3</button>
+                                    <button onclick="miniCalcInput('0')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded col-span-2 hover:bg-slate-300">0</button>
+                                    <button onclick="miniCalcInput('.')" class="p-2 bg-slate-200 dark:bg-slate-700 rounded hover:bg-slate-300">.</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini Dice Roll Preview Frame -->
+                    <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-slate-900 dark:to-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                <span class="ml-2 text-xs font-bold text-slate-700 dark:text-slate-300">Dice Roll Simulator Quick Play</span>
+                            </div>
+                            <button onclick="switchMainTab('dice')" class="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:underline">Full View &rarr;</button>
+                        </div>
+                        <div class="text-center py-4">
+                            <div id="mini-dice-visual" class="text-7xl select-none inline-block text-slate-800 dark:text-slate-100 transition-transform cursor-pointer" onclick="rollStandaloneDice(true)">
+                                &#9860;
+                            </div>
+                            <div class="mt-3">
+                                <button onclick="rollStandaloneDice(true)" class="px-5 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl shadow transition-all active:scale-95 text-sm">
+                                    <i class="fa-solid fa-dice mr-1"></i> Quick Roll
+                                </button>
+                            </div>
+                            <p id="mini-dice-result-text" class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-2">Current Face: 5 (⚄)</p>
+                        </div>
+                    </div>
+
+                    <!-- Mini Search Bar Preview Frame -->
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                <span class="ml-2 text-xs font-bold text-slate-700 dark:text-slate-300">Animated Search Bar & Filtering</span>
+                            </div>
+                            <button onclick="switchMainTab('search')" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">Full View &rarr;</button>
+                        </div>
+                        <div class="flex flex-col items-center justify-center py-4">
+                            <div class="relative w-full max-w-sm flex items-center bg-white dark:bg-slate-800 rounded-full px-4 py-2 border border-slate-300 dark:border-slate-700 shadow-sm">
+                                <i class="fa-solid fa-magnifying-glass text-slate-400 mr-2 text-sm"></i>
+                                <input type="text" id="mini-search-input" oninput="handleMiniSearch(this.value)" placeholder="Search front-end topics..." class="w-full bg-transparent outline-none text-xs text-slate-800 dark:text-slate-200">
+                            </div>
+                            <div id="mini-search-chips" class="mt-3 flex flex-wrap gap-1.5 justify-center">
+                                <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[11px]">JavaScript</span>
+                                <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 text-[11px]">CSS Grid</span>
+                                <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 text-[11px]">DOM Events</span>
+                                <span class="px-2 py-0.5 rounded bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 text-[11px]">Animations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini Slider Preview Frame -->
+                    <div class="bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-900 dark:to-slate-800/80 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                <span class="ml-2 text-xs font-bold text-slate-700 dark:text-slate-300">Testimonial Slider Carousel</span>
+                            </div>
+                            <button onclick="switchMainTab('slider')" class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">Full View &rarr;</button>
+                        </div>
+                        <div class="py-2">
+                            <div class="bg-indigo-600 text-white rounded-xl p-4 relative shadow-md">
+                                <div class="flex items-center gap-3">
+                                    <img id="mini-slider-img" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80" alt="Avatar" class="w-12 h-12 rounded-full border-2 border-white object-cover">
+                                    <div>
+                                        <h4 id="mini-slider-name" class="font-bold text-sm">Cherise G</h4>
+                                        <div class="text-amber-300 text-xs">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p id="mini-slider-text" class="text-xs text-indigo-100 mt-2 italic line-clamp-2">
+                                    "This is simply unbelievable! I would be lost without Apple. The very best. Not able to tell you how happy I am."
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================= -->
+        <!-- VIEW 2: BASIC CALCULATOR (Projects/Basic_Calculator) -->
+        <!-- ============================================================= -->
+        <section id="view-calculator" class="hidden space-y-6">
+            <!-- Header bar with breadcrumb & actions -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <button onclick="switchMainTab('dashboard')" class="hover:underline">Projects</button>
+                        <span>/</span>
+                        <span class="text-teal-600 dark:text-teal-400 font-semibold">Basic_Calculator</span>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Interactive Basic Calculator</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleCalcTape()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-receipt"></i> <span id="tapeToggleText">Show History Tape</span>
+                    </button>
+                    <button onclick="copyCalcResult()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-teal-600 text-white hover:bg-teal-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-copy"></i> Copy Output
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Interactive Calculator Workspace -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left/Center: The Authentic Calculator Unit -->
+                <div class="lg:col-span-7 flex justify-center">
+                    <div class="calc-glass w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl transition-all duration-300 hover:shadow-teal-500/10 border border-white/60 dark:border-slate-800">
+                        <!-- Top status bar -->
+                        <div class="flex items-center justify-between mb-3 text-xs text-slate-500 dark:text-slate-400 font-mono">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> RAD/DEG
+                            </span>
+                            <span id="calc-memory-indicator" class="font-bold text-indigo-500 hidden">M (Stored)</span>
+                            <span class="flex items-center gap-1">
+                                <i class="fa-solid fa-keyboard"></i> Keyboard Active
+                            </span>
+                        </div>
+
+                        <!-- Result Display (as styled in repository) -->
+                        <div class="relative mb-6">
+                            <div id="calc-expression-preview" class="text-right text-xs font-mono text-slate-400 h-4 overflow-hidden text-ellipsis mb-1"></div>
+                            <input 
+                                type="text" 
+                                id="result" 
+                                readonly 
+                                value="" 
+                                placeholder="0" 
+                                class="w-full py-4 px-5 text-right text-3xl sm:text-4xl font-mono font-extrabold rounded-2xl bg-slate-100/90 dark:bg-slate-900/90 text-slate-900 dark:text-white border border-slate-200/80 dark:border-slate-700/80 shadow-inner focus:outline-none transition-all tracking-wider"
+                            >
+                        </div>
+
+                        <!-- Extended Functional Row (Memory / Parenthesis / Backspace) -->
+                        <div class="grid grid-cols-4 gap-2.5 mb-2.5">
+                            <button onclick="handleMemory('MC')" class="p-2.5 text-xs font-bold rounded-xl bg-slate-200/70 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">MC</button>
+                            <button onclick="handleMemory('MR')" class="p-2.5 text-xs font-bold rounded-xl bg-slate-200/70 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">MR</button>
+                            <button onclick="handleMemory('M+')" class="p-2.5 text-xs font-bold rounded-xl bg-slate-200/70 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition">M+</button>
+                            <button onclick="deleteLastChar()" class="p-2.5 text-xs font-bold rounded-xl bg-amber-500 hover:bg-amber-600 text-white transition flex items-center justify-center">
+                                <i class="fa-solid fa-delete-left"></i>
+                            </button>
+                        </div>
+
+                        <!-- Core Calculator Keypad (exact button schema from Projects/Basic_Calculator/index.html) -->
+                        <div class="buttons grid grid-cols-4 gap-2.5">
+                            <button class="clear p-4 text-xl font-bold rounded-xl bg-gradient-to-tr from-rose-500 to-red-500 text-white shadow-md hover:from-rose-600 hover:to-red-600 active:scale-95 transition-all">C</button>
+                            <button class="operator p-4 text-xl font-bold rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-600 text-white shadow-md hover:from-blue-700 hover:to-cyan-700 active:scale-95 transition-all">/</button>
+                            <button class="operator p-4 text-xl font-bold rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-600 text-white shadow-md hover:from-blue-700 hover:to-cyan-700 active:scale-95 transition-all">*</button>
+                            <button class="operator p-4 text-xl font-bold rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-600 text-white shadow-md hover:from-blue-700 hover:to-cyan-700 active:scale-95 transition-all">-</button>
+                            
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">7</button>
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">8</button>
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">9</button>
+                            <button class="operator p-4 text-xl font-bold rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-600 text-white shadow-md hover:from-blue-700 hover:to-cyan-700 active:scale-95 transition-all">+</button>
+                            
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">4</button>
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">5</button>
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">6</button>
+                            <button class="equals p-4 text-xl font-bold rounded-xl bg-gradient-to-tr from-emerald-500 to-green-600 text-white shadow-lg hover:from-emerald-600 hover:to-green-700 active:scale-95 transition-all row-span-3 flex items-center justify-center">=</button>
+                            
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">1</button>
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">2</button>
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">3</button>
+                            
+                            <button class="number p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all col-span-2">0</button>
+                            <button class="decimal p-4 text-xl font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-800 dark:text-white border border-slate-200 dark:border-slate-700 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-750 active:scale-95 transition-all">.</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Calculator Instructions & Calculation History Tape -->
+                <div class="lg:col-span-5 space-y-4">
+                    <div id="calc-history-panel" class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                                <i class="fa-solid fa-clock-rotate-left text-teal-600 dark:text-teal-400"></i> Calculation History Tape
+                            </h3>
+                            <button onclick="clearCalcHistory()" class="text-xs text-red-500 hover:text-red-600 font-semibold">Clear</button>
+                        </div>
+                        <div id="calc-history-list" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-sm font-mono">
+                            <div class="text-xs text-slate-400 italic py-4 text-center">No calculations performed yet. Try evaluating an expression!</div>
+                        </div>
+                    </div>
+
+                    <!-- Keyboard Quick Reference Guide -->
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 text-xs space-y-2">
+                        <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-keyboard text-indigo-500"></i> Keyboard Shortcuts
+                        </h4>
+                        <div class="grid grid-cols-2 gap-2 text-slate-600 dark:text-slate-400">
+                            <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded">
+                                <span>Digits / Operators:</span>
+                                <kbd class="px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded font-mono text-slate-900 dark:text-white">0-9 + - * / .</kbd>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded">
+                                <span>Calculate (=):</span>
+                                <kbd class="px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded font-mono text-slate-900 dark:text-white">Enter</kbd>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded">
+                                <span>Delete Character:</span>
+                                <kbd class="px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded font-mono text-slate-900 dark:text-white">Backspace</kbd>
+                            </div>
+                            <div class="flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded">
+                                <span>Clear All:</span>
+                                <kbd class="px-1.5 py-0.5 bg-slate-200 dark:bg-slate-700 rounded font-mono text-slate-900 dark:text-white">Esc / C</kbd>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ============================================================= -->
+        <!-- VIEW 3: DICE ROLL SIMULATOR (Projects/Dice-Roll) -->
+        <!-- ============================================================= -->
+        <section id="view-dice" class="hidden space-y-6">
+            <!-- Header bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <button onclick="switchMainTab('dashboard')" class="hover:underline">Projects</button>
+                        <span>/</span>
+                        <span class="text-amber-600 dark:text-amber-400 font-semibold">Dice-Roll</span>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Dice Roll Simulator</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <!-- Configurable dice count -->
+                    <div class="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <label for="diceCountSelect" class="text-xs font-semibold text-slate-600 dark:text-slate-300">Dice Count:</label>
+                        <select id="diceCountSelect" onchange="changeDiceCount(this.value)" class="bg-transparent text-xs font-bold text-amber-600 dark:text-amber-400 outline-none cursor-pointer">
+                            <option value="1">1 Die</option>
+                            <option value="2">2 Dice</option>
+                            <option value="3">3 Dice</option>
+                            <option value="4">4 Dice</option>
+                        </select>
+                    </div>
+                    <button onclick="clearDiceHistory()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-trash-can"></i> Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dice Arena -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Center Stage -->
+                <div class="lg:col-span-7 bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-sm text-center">
+                    <div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 text-xs font-semibold mb-6">
+                        <i class="fa-solid fa-gamepad"></i> Press <kbd class="px-1.5 py-0.5 bg-amber-200 dark:bg-amber-800 rounded font-mono ml-1 mr-1">Space</kbd> or Click Roll
+                    </div>
+
+                    <!-- Dice Cluster Display Area -->
+                    <div id="diceClusterContainer" class="flex flex-wrap items-center justify-center gap-6 min-h-[160px] py-4">
+                        <div class="dice text-8xl sm:text-9xl text-amber-600 dark:text-amber-400 select-none drop-shadow-md transition-transform" id="dice">
+                            &#9860;
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Roll Stats (Sum / Average) -->
+                    <div id="dice-summary-stats" class="my-6 grid grid-cols-3 gap-3 max-w-sm mx-auto">
+                        <div class="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                            <span class="text-[11px] text-slate-400 font-medium block">Last Result</span>
+                            <span id="stat-last-sum" class="text-lg font-extrabold text-slate-800 dark:text-slate-100">5</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                            <span class="text-[11px] text-slate-400 font-medium block">Total Sum</span>
+                            <span id="stat-total-sum" class="text-lg font-extrabold text-amber-600 dark:text-amber-400">5</span>
+                        </div>
+                        <div class="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-slate-100 dark:border-slate-700/60">
+                            <span class="text-[11px] text-slate-400 font-medium block">Total Rolls</span>
+                            <span id="stat-roll-count" class="text-lg font-extrabold text-teal-600 dark:text-teal-400">1</span>
+                        </div>
+                    </div>
+
+                    <!-- Main Roll Trigger Button (Styles inspired by Projects/Dice-Roll/style.css) -->
+                    <button id="roll-button" class="w-full max-w-xs px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-extrabold text-lg rounded-2xl shadow-lg hover:shadow-amber-500/25 active:scale-95 transition-all">
+                        <i class="fa-solid fa-dice mr-2"></i> Roll Dice
+                    </button>
+                </div>
+
+                <!-- Right: Roll History Log (from Projects/Dice-Roll/index.html & script.js) -->
+                <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-ol text-amber-500"></i> Roll History Stream
+                        </h3>
+                        <span id="history-badge-count" class="text-xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 font-semibold text-slate-600 dark:text-slate-400">0 logs</span>
+                    </div>
+
+                    <ul id="roll-history" class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
+                        <!-- Populated by JavaScript -->
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ============================================================= -->
+        <!-- VIEW 4: ANIMATED SEARCH BAR (Projects/Search_bar) -->
+        <!-- ============================================================= -->
+        <section id="view-search" class="hidden space-y-6">
+            <!-- Header bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <button onclick="switchMainTab('dashboard')" class="hover:underline">Projects</button>
+                        <span>/</span>
+                        <span class="text-emerald-600 dark:text-emerald-400 font-semibold">Search_bar</span>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Animated Search Bar & Filtering</h2>
+                </div>
+                <div class="flex items-center gap-2 text-xs text-slate-500">
+                    <span>Click the Magnifier Icon to expand / collapse</span>
+                </div>
+            </div>
+
+            <!-- Authentic Neumorphic Search Bar Demo Stage -->
+            <div class="bg-slate-100 dark:bg-slate-900/60 rounded-3xl p-8 sm:p-12 border border-slate-200 dark:border-slate-800 shadow-inner flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden">
+                
+                <!-- The Search Bar Container from Projects/Search_bar/index.html & style.css -->
+                <div class="search-bar-container neu-search-box flex items-center px-4 py-2.5 w-full max-w-md relative transition-all duration-700">
+                    <!-- Magnifier Toggle Icon -->
+                    <button type="button" class="magnifier text-slate-600 dark:text-slate-300 hover:text-emerald-600 focus:outline-none transition-transform active:scale-90" title="Click to Expand/Collapse Search Bar">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </button>
+
+                    <!-- Real Live Filter Input -->
+                    <input 
+                        type="text" 
+                        id="mainSearchInput"
+                        class="input search-inner-input bg-transparent border-none outline-none px-4 w-full text-slate-700 dark:text-slate-200 font-medium text-sm transition-all placeholder:text-slate-400"
+                        placeholder="Search JavaScript concepts, libraries & APIs..."
+                        autocomplete="off"
+                    >
+
+                    <!-- Mic / Voice Search Icon -->
+                    <button type="button" id="voiceSearchMicBtn" onclick="triggerVoiceSearch()" class="mic-icon search-mic-icon text-slate-400 hover:text-red-500 transition-colors focus:outline-none" title="Voice Search (Web Speech API)">
+                        <i id="micIconStatus" class="fa-solid fa-microphone text-base"></i>
+                    </button>
+                </div>
+
+                <p class="mt-4 text-xs text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-circle-info text-emerald-500"></i>
+                    Supports dynamic debounced matching, substring highlighting, and keyboard traversal (↑/↓/Enter).
+                </p>
+            </div>
+
+            <!-- Live Filtered Results & Suggestions Container -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Filtered dataset table -->
+                <div class="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            <i class="fa-solid fa-database text-emerald-600"></i> Live Data Catalog (<span id="resultsCountBadge">12</span>)
+                        </h3>
+                        <div class="flex gap-2">
+                            <button onclick="filterCategory('all')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">All</button>
+                            <button onclick="filterCategory('js')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-emerald-500">JS</button>
+                            <button onclick="filterCategory('css')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-emerald-500">CSS</button>
+                            <button onclick="filterCategory('api')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-emerald-500">APIs</button>
+                        </div>
+                    </div>
+
+                    <div id="searchResultsList" class="space-y-2.5 max-h-96 overflow-y-auto pr-1">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Recent Searches & Query Stats -->
+                <div class="space-y-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400">Recent Searches</h4>
+                            <button onclick="clearRecentSearches()" class="text-[11px] text-red-500 hover:underline">Clear</button>
+                        </div>
+                        <div id="recentSearchesChips" class="flex flex-wrap gap-2">
+                            <!-- Populated from LocalStorage -->
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm text-xs space-y-2 text-slate-600 dark:text-slate-400">
+                        <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Feature Highlights</h4>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li>Neumorphic CSS box-shadow styling</li>
+                            <li>Toggle active state via JavaScript event listeners</li>
+                            <li>Sub-string highlight wrapper tags</li>
+                            <li>Integrated browser speech synthesis fallback</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================= -->
+        <!-- VIEW 5: TESTIMONIAL SLIDER (Projects/Slider) -->
+        <!-- ============================================================= -->
+        <section id="view-slider" class="hidden space-y-6">
+            <!-- Header bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <button onclick="switchMainTab('dashboard')" class="hover:underline">Projects</button>
+                        <span>/</span>
+                        <span class="text-indigo-600 dark:text-indigo-400 font-semibold">Slider</span>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Testimonial Slider Carousel</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="sliderPlayPauseBtn" onclick="toggleSliderAutoplay()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 flex items-center gap-1.5">
+                        <i id="sliderPlayIcon" class="fa-solid fa-pause"></i> <span id="sliderPlayText">Autoplay Active (10s)</span>
+                    </button>
+                    <button onclick="openNewTestimonialModal()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-plus"></i> Add Testimonial
+                    </button>
+                </div>
+            </div>
+
+            <!-- Slider Stage (exact styles & layout from Projects/Slider/index.html & CSS/style.css) -->
+            <div class="flex flex-col items-center justify-center py-12 px-4 bg-slate-100 dark:bg-slate-900/50 rounded-3xl border border-slate-200 dark:border-slate-800 relative">
+                
+                <!-- The Testimonial Card Container -->
+                <div id="main-testimonial-box" class="testimonial-glow relative w-full max-w-xl text-white rounded-2xl p-8 pt-14 shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+                    <!-- Avatar image (from Projects/Slider/index.html) -->
+                    <img 
+                        id="testimonial-avatar" 
+                        src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80" 
+                        alt="user-image"
+                        class="w-24 h-24 rounded-full absolute left-1/2 -translate-x-1/2 -top-12 border-4 border-indigo-300 shadow-xl object-cover transition-opacity duration-300"
+                    >
+
+                    <!-- Quote Text -->
+                    <p class="text font-sans text-sm sm:text-base leading-relaxed text-center font-normal text-indigo-50 italic transition-all duration-300 min-h-[60px] flex items-center justify-center" id="testimonial-text">
+                        "This is simply unbelievable! I would be lost without Apple. The very best. Not able to tell you how happy I am with Apple."
+                    </p>
+
+                    <!-- Author Name -->
+                    <div class="mt-4 text-center border-t border-indigo-400/30 pt-3">
+                        <h4 class="username font-semibold text-base tracking-wide text-white" id="testimonial-author">Cherise G</h4>
+                        <span class="text-xs text-indigo-200">Verified Client Review</span>
+                    </div>
+
+                    <!-- Progress bar for 10-second autoplay -->
+                    <div class="w-full bg-indigo-900/40 h-1 rounded-full mt-4 overflow-hidden">
+                        <div id="slider-progress-bar" class="bg-white h-full transition-all ease-linear" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <!-- Carousel Controls (Prev / Next & Dots) -->
+                <div class="flex items-center gap-6 mt-8">
+                    <button onclick="prevTestimonial()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow hover:bg-indigo-50 dark:hover:bg-slate-700 flex items-center justify-center transition active:scale-95" title="Previous Slide">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <div id="testimonial-indicators" class="flex items-center gap-2">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <button onclick="nextTestimonial()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow hover:bg-indigo-50 dark:hover:bg-slate-700 flex items-center justify-center transition active:scale-95" title="Next Slide">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Testimonial Management Grid -->
+            <div class="bg-white dark:bg-slate-900 rounded-2xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-indigo-500"></i> Loaded Testimonials (<span id="testimonialCountBadge">3</span>)
+                    </h3>
+                    <span class="text-xs text-slate-400">Stored in Application State & LocalStorage</span>
+                </div>
+                <div id="testimonialsListGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================= -->
+        <!-- VIEW 6: DOCUMENTATION & SOURCE CODE HUB -->
+        <!-- ============================================================= -->
+        <section id="view-docs" class="hidden space-y-6">
+            <!-- Header bar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                        <button onclick="switchMainTab('dashboard')" class="hover:underline">Projects</button>
+                        <span>/</span>
+                        <span class="text-purple-600 dark:text-purple-400 font-semibold">Manifest & Specs</span>
+                    </div>
+                    <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Repository Code Explorer & Documentation</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="copyActiveCodeSnippet()" class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-copy"></i> Copy Active File
+                    </button>
+                </div>
+            </div>
+
+            <!-- Code Explorer Tabs -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Sidebar File Tree -->
+                <div class="lg:col-span-4 space-y-3">
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <h4 class="font-bold text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-folder-tree"></i> Project Manifest (17 Files)
+                        </h4>
+                        <div class="space-y-1 text-xs font-mono" id="fileTreeContainer">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm text-xs space-y-2">
+                        <h4 class="font-bold text-slate-800 dark:text-slate-200 text-sm">Repository Metadata</h4>
+                        <div class="text-slate-600 dark:text-slate-400 space-y-1.5 font-sans">
+                            <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
+                                <span>Author:</span> <strong class="text-slate-900 dark:text-white">Jeevan-Tec</strong>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
+                                <span>License:</span> <strong class="text-slate-900 dark:text-white">MIT</strong>
+                            </div>
+                            <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
+                                <span>Build Type:</span> <strong class="text-teal-600 dark:text-teal-400">Zero-Dependency Pure JS</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main File Viewer -->
+                <div class="lg:col-span-8 bg-slate-900 text-slate-100 rounded-2xl border border-slate-800 shadow-xl overflow-hidden flex flex-col">
+                    <div class="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-slate-800">
+                        <div class="flex items-center gap-2">
+                            <i id="activeFileIcon" class="fa-brands fa-js text-yellow-400"></i>
+                            <span id="activeFileName" class="text-xs font-mono font-semibold text-slate-200">Projects/Basic_Calculator/script.js</span>
+                        </div>
+                        <span id="activeFileLength" class="text-[11px] text-slate-400 font-mono">1,198 chars</span>
+                    </div>
+                    <pre class="p-4 overflow-x-auto text-xs font-mono leading-relaxed text-slate-300 max-h-[500px] flex-1"><code id="activeCodeBlock">// File Content Loaded Here</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- NEW TESTIMONIAL MODAL (Real operational dialog) -->
+    <div id="addTestimonialModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-slate-200 dark:border-slate-800 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-circle-plus text-indigo-600"></i> Add New Testimonial
+                </h3>
+                <button onclick="closeNewTestimonialModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form onsubmit="submitNewTestimonial(event)" class="space-y-4 mt-4 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Author Name</label>
+                    <input type="text" id="modal-author-name" required placeholder="e.g. Sarah Jenkins" class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Avatar Image URL</label>
+                    <input type="url" id="modal-photo-url" required value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80" class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Testimonial Review</label>
+                    <textarea id="modal-text-content" rows="3" required placeholder="Write genuine review text here..." class="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeNewTestimonialModal()" class="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold hover:bg-slate-200">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 shadow">Save Testimonial</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION POPUP -->
+    <div id="toastNotification" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 text-white text-xs font-semibold shadow-2xl border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-check text-teal-400"></i>
+        <span id="toastMessage">Notification triggered</span>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 text-xs text-slate-500 dark:text-slate-400 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-code text-teal-600 dark:text-teal-400"></i>
+                <span>Compiled from <strong>Jeevan-Tec/Html-CSS-JS-Project</strong> (17 files bundled)</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="switchMainTab('docs')" class="hover:text-teal-600 transition-colors">File Manifest</button>
+                <span>&bull;</span>
+                <a href="https://github.com/Jeevan-Tec/Html-CSS-JS-Project" target="_blank" rel="noopener noreferrer" class="hover:text-teal-600 transition-colors">GitHub Repository</a>
+                <span>&bull;</span>
+                <span class="text-teal-600 dark:text-teal-400 font-semibold">100% Client-Side Ready</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================================================================= -->
+    <!-- MASTER FULL-STACK INTERACTIVE ENGINE & DATA BUNDLE -->
+    <!-- ================================================================= -->
+    <script>
+        /* -------------------------------------------------------------
+           1. REPOSITORY DATA STORE & REPO FILES BUNDLE
+           ------------------------------------------------------------- */
+        const REPO_FILES = {
+            "Projects/Basic_Calculator/script.js": {
+                name: "script.js (Basic Calculator)",
+                type: "js",
+                code: `const buttonsEl = document.querySelectorAll("button");\nconst inputFieldEl = document.getElementById("result");\n\n// Attach button clicks\nbuttonsEl.forEach((btn) => {\n  btn.addEventListener("click", () => {\n    handleInput(btn.textContent);\n  });\n});\n\n// Handle keyboard input\ndocument.addEventListener("keydown", (event) => {\n  const key = event.key;\n\n  if (!isNaN(key) || ["+", "-", "*", "/", "."].includes(key)) {\n    appendValue(key);\n  } else if (key === "Enter") {\n    calculateResult();\n  } else if (key === "Backspace") {\n    deleteLast();\n  } else if (key.toUpperCase() === "C") {\n    clearResult();\n  }\n});\n\n// Core functions\nfunction handleInput(value) {\n  if (value === "C") {\n    clearResult();\n  } else if (value === "=") {\n    calculateResult();\n  } else {\n    appendValue(value);\n  }\n}\n\nfunction clearResult() {\n  inputFieldEl.value = "";\n}\n\nfunction deleteLast() {\n  inputFieldEl.value = inputFieldEl.value.slice(0, -1);\n}\n\nfunction calculateResult() {\n  try {\n    inputFieldEl.value = eval(inputFieldEl.value);\n  } catch {\n    inputFieldEl.value = "Error";\n  }\n}\n\nfunction appendValue(val) {\n  inputFieldEl.value += val;\n}`
+            },
+            "Projects/Dice-Roll/script.js": {
+                name: "script.js (Dice Roll)",
+                type: "js",
+                code: `const buttonEl = document.getElementById("roll-button");\nconst diceEl = document.getElementById("dice");\nconst rollHistoryEl = document.getElementById("roll-history");\n\nlet historyList = [];\n\nfunction rollDice() {\n  const rollResult = Math.floor(Math.random() * 6) + 1;\n  const diceFace = getDiceFace(rollResult);\n  diceEl.innerHTML = diceFace;\n  historyList.push(rollResult);\n  updateRollHistory();\n}\n\nfunction updateRollHistory() {\n  rollHistoryEl.innerHTML = "";\n  for (let i = 0; i < historyList.length; i++) {\n    const listItem = document.createElement("li");\n    listItem.innerHTML = \`Roll \${i + 1}: <span>\${getDiceFace(\n      historyList[i]\n    )}</span>\`;\n    rollHistoryEl.appendChild(listItem);\n  }\n}\n\nfunction getDiceFace(rollResult) {\n  switch (rollResult) {\n    case 1:\n      return "&#9856;";\n    case 2:\n      return "&#9857;";\n    case 3:\n      return "&#9858;";\n    case 4:\n      return "&#9859;";\n    case 5:\n      return "&#9860;";\n    case 6:\n      return "&#9861;";\n  }\n}\n\nbuttonEl.addEventListener("click", () => {\n  diceEl.classList.add("roll-animation");\n  setTimeout(() => {\n    diceEl.classList.remove("roll-animation");\n    rollDice();\n  }, 1000);\n});`
+            },
+            "Projects/Search_bar/Js/script.js": {
+                name: "script.js (Search Bar)",
+                type: "js",
+                code: `const searchBarContainerEl = document.querySelector(".search-bar-container");\nconst magnifierEl = document.querySelector(".magnifier");\n\nmagnifierEl.addEventListener("click", () => {\n  searchBarContainerEl.classList.toggle("active");\n});`
+            },
+            "Projects/Slider/Js/index.js": {
+                name: "index.js (Testimonial Slider)",
+                type: "js",
+                code: `const testimonials = [\n  {\n    name: "Cherise G",\n    photoUrl:\n      "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80",\n    text: "This is simply unbelievable! I would be lost without Apple. The very best. Not able to tell you how happy I am with Apple.",\n  },\n  {\n    name: "Rosetta Q",\n    photoUrl:\n      "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80",\n    text: "I would also like to say thank you to all your staff. Wow what great service, I love it! Apple impressed me on multiple levels.",\n  },\n  {\n    name: "Constantine V",\n    photoUrl:\n      "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80",\n    text: "Thank you for making it painless, pleasant and most of all hassle free! I wish I would have thought of it first. The very best.",\n  },\n];`
+            },
+            "README.md": {
+                name: "README.md (Master)",
+                type: "markdown",
+                code: `# Html-CSS-JS-Project\n\nA curated collection of small, focused HTML, CSS, and JavaScript projects that demonstrate front-end techniques, UI patterns, and interactive behaviors.\n\n### Projects Included:\n1. Basic Calculator - Arithmetic, responsive keys, keyboard input\n2. Dice Roll Simulator - Pseudo-random generator, CSS keyframe flip\n3. Animated Search Bar - Neumorphic toggle container & search dynamics\n4. Testimonial Slider - Periodic auto-advancing carousel & quote layout`
+            }
+        };
+
+        // Live Search catalog dataset
+        const SEARCH_CATALOG = [
+            { id: 1, title: "JavaScript Closures & Lexical Scope", category: "js", desc: "Understanding execution context, variable lifecycles and enclosed scope." },
+            { id: 2, title: "CSS Flexbox & CSS Grid Layouts", category: "css", desc: "Modern two-dimensional and one-dimensional CSS styling structures." },
+            { id: 3, title: "Fetch API & Asynchronous Promises", category: "api", desc: "Handling HTTP network calls, async/await paradigms and JSON parsing." },
+            { id: 4, title: "DOM Event Delegation & Bubbling", category: "js", desc: "Attaching single event handlers for performant dynamic elements." },
+            { id: 5, title: "Web Audio API Synthesis", category: "api", desc: "Generating procedural audio beeps, pitches, and sounds without mp3 files." },
+            { id: 6, title: "CSS 3D Keyframe Transformations", category: "css", desc: "Building realistic dice rolls, card flips, and cubic animations." },
+            { id: 7, title: "LocalStorage & Web Storage Persistence", category: "api", desc: "Storing key-value browser data between page reloads reliably." },
+            { id: 8, title: "Neumorphic & Glassmorphic UI Design", category: "css", desc: "Soft-shadow aesthetics, frosted blur backdrops, and modern cards." },
+            { id: 9, title: "SpeechRecognition & Voice Search", category: "api", desc: "Integrating browser speech-to-text input with search filters." },
+            { id: 10, title: "Debounce & Throttle Functions", category: "js", desc: "Optimizing rapid keyboard input streams to prevent UI lag." },
+            { id: 11, title: "Array Methods (map, filter, reduce)", category: "js", desc: "Declarative collection processing in modern ECMAScript." },
+            { id: 12, title: "HTML5 Canvas & Particle Engines", category: "js", desc: "Rendering 2D bitmap interactive drawings and physics." }
+        ];
+
+        /* -------------------------------------------------------------
+           2. WEB AUDIO API SYNTHESIZER (Procedural SFX)
+           ------------------------------------------------------------- */
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playTone(freq, type = 'sine', duration = 0.08, gainVal = 0.05) {
+            if (!soundEnabled) return;
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                // Audio context suppressed
+            }
+        }
+
+        function playDiceRollSound() {
+            if (!soundEnabled) return;
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    playTone(200 + Math.random() * 300, 'triangle', 0.04, 0.04);
+                }, i * 120);
+            }
+        }
+
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('soundIcon');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-teal-600 dark:text-teal-400';
+                showToast('Audio SFX Enabled');
+                playTone(520, 'sine', 0.1);
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+                showToast('Audio SFX Muted');
+            }
+        }
+
+        /* -------------------------------------------------------------
+           3. THEME & GLOBAL NAVIGATION
+           ------------------------------------------------------------- */
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            const icon = document.getElementById('themeIcon');
+            icon.className = isDark ? 'fa-solid fa-sun text-amber-400' : 'fa-solid fa-moon';
+            localStorage.setItem('hub_theme', isDark ? 'dark' : 'light');
+            showToast(`Switched to ${isDark ? 'Dark' : 'Light'} Mode`);
+        }
+
+        // Initialize saved theme
+        if (localStorage.getItem('hub_theme') === 'dark' || (!localStorage.getItem('hub_theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            document.getElementById('themeIcon').className = 'fa-solid fa-sun text-amber-400';
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function switchMainTab(tabKey) {
+            const views = ['dashboard', 'calculator', 'dice', 'search', 'slider', 'docs'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.add('hidden');
+
+                const navBtn = document.getElementById(`nav-btn-${v}`);
+                if (navBtn) {
+                    navBtn.className = 'px-3 py-2 text-sm font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2';
+                }
+            });
+
+            const activeView = document.getElementById(`view-${tabKey}`);
+            if (activeView) activeView.classList.remove('hidden');
+
+            const activeBtn = document.getElementById(`nav-btn-${tabKey}`);
+            if (activeBtn) {
+                activeBtn.className = 'px-3 py-2 text-sm font-medium rounded-lg text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-950/60 transition-colors flex items-center gap-2';
+            }
+
+            playTone(440, 'sine', 0.05);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            
+            toastMsg.textContent = msg;
+            toastIcon.className = isError ? 'fa-solid fa-circle-exclamation text-rose-400' : 'fa-solid fa-check text-teal-400';
+            
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            clearTimeout(window._toastTimeout);
+            window._toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 2500);
+        }
+
+        /* -------------------------------------------------------------
+           4. BASIC CALCULATOR LOGIC (Projects/Basic_Calculator/script.js)
+           ------------------------------------------------------------- */
+        const calcInput = document.getElementById("result");
+        const calcPreview = document.getElementById("calc-expression-preview");
+        let calcMemory = 0;
+        let calcHistory = JSON.parse(localStorage.getItem("calc_history") || "[]");
+
+        // Attach buttons on main calc
+        document.querySelectorAll("#view-calculator .buttons button").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const txt = btn.textContent.trim();
+                playTone(txt === "=" ? 660 : 380, 'sine', 0.06);
+                handleCalcAction(txt);
+            });
+        });
+
+        // Global Keyboard routing for Calculator when view is open or focused
+        document.addEventListener("keydown", (event) => {
+            const key = event.key;
+            const calcViewActive = !document.getElementById("view-calculator").classList.contains("hidden");
+            
+            // If typing in search input, don't trigger calculator keys
+            if (document.activeElement && (document.activeElement.tagName === "INPUT" || document.activeElement.tagName === "TEXTAREA")) {
+                if (document.activeElement.id !== "result") return;
+            }
+
+            if (!isNaN(key) || ["+", "-", "*", "/", "."].includes(key)) {
+                if (calcViewActive) {
+                    appendCalcValue(key);
+                    playTone(380, 'sine', 0.04);
+                }
+            } else if (key === "Enter" || key === "=") {
+                if (calcViewActive) {
+                    calculateCalcResult();
+                    playTone(660, 'sine', 0.08);
+                }
+            } else if (key === "Backspace") {
+                if (calcViewActive) {
+                    deleteLastChar();
+                    playTone(300, 'sine', 0.04);
+                }
+            } else if (key.toUpperCase() === "C" || key === "Escape") {
+                if (calcViewActive) {
+                    clearCalc();
+                    playTone(250, 'sine', 0.04);
+                }
+            } else if (key === " " && !document.getElementById("view-dice").classList.contains("hidden")) {
+                // Spacebar rolls dice when on dice tab
+                event.preventDefault();
+                document.getElementById("roll-button").click();
+            }
+        });
+
+        function handleCalcAction(val) {
+            if (val === "C") {
+                clearCalc();
+            } else if (val === "=") {
+                calculateCalcResult();
+            } else {
+                appendCalcValue(val);
+            }
+        }
+
+        function appendCalcValue(val) {
+            // Prevent duplicate consecutive operators
+            const lastChar = calcInput.value.slice(-1);
+            if (["+", "-", "*", "/"].includes(val) && ["+", "-", "*", "/"].includes(lastChar)) {
+                calcInput.value = calcInput.value.slice(0, -1) + val;
+                return;
+            }
+            calcInput.value += val;
+            calcPreview.textContent = calcInput.value;
+        }
+
+        function clearCalc() {
+            calcInput.value = "";
+            calcPreview.textContent = "";
+        }
+
+        function deleteLastChar() {
+            calcInput.value = calcInput.value.slice(0, -1);
+            calcPreview.textContent = calcInput.value;
+        }
+
+        function calculateCalcResult() {
+            const expr = calcInput.value;
+            if (!expr) return;
+            try {
+                // Safe arithmetic evaluation
+                const sanitized = expr.replace(/[^0-9+\-*/.]/g, '');
+                // eslint-disable-next-line no-eval
+                const computed = Function(`'use strict'; return (${sanitized})`)();
+                const formatted = Number.isInteger(computed) ? computed : parseFloat(computed.toFixed(6));
+                
+                // Add to history
+                addCalcHistoryItem(expr, formatted);
+                calcPreview.textContent = `${expr} =`;
+                calcInput.value = formatted;
+            } catch (err) {
+                calcInput.value = "Error";
+                showToast("Invalid Arithmetic Expression", true);
+            }
+        }
+
+        function handleMemory(action) {
+            playTone(480, 'sine', 0.05);
+            const currentVal = parseFloat(calcInput.value) || 0;
+            const indicator = document.getElementById("calc-memory-indicator");
+
+            if (action === "M+") {
+                calcMemory += currentVal;
+                indicator.classList.remove("hidden");
+                showToast(`Added ${currentVal} to Memory (${calcMemory})`);
+            } else if (action === "MR") {
+                calcInput.value = calcMemory;
+                calcPreview.textContent = `Recall: ${calcMemory}`;
+                showToast(`Recalled Memory: ${calcMemory}`);
+            } else if (action === "MC") {
+                calcMemory = 0;
+                indicator.classList.add("hidden");
+                showToast("Memory Cleared");
+            }
+        }
+
+        function addCalcHistoryItem(expr, ans) {
+            calcHistory.unshift({ expr, ans, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) });
+            if (calcHistory.length > 20) calcHistory.pop();
+            localStorage.setItem("calc_history", JSON.stringify(calcHistory));
+            renderCalcHistory();
+        }
+
+        function renderCalcHistory() {
+            const list = document.getElementById("calc-history-list");
+            if (!calcHistory.length) {
+                list.innerHTML = `<div class="text-xs text-slate-400 italic py-4 text-center">No calculations performed yet. Try evaluating an expression!</div>`;
+                return;
+            }
+            list.innerHTML = calcHistory.map(item => `
+                <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-700/60 hover:border-teal-500 cursor-pointer" onclick="loadHistoryExpr('${item.ans}')">
+                    <span class="text-slate-500 text-xs">${item.expr} =</span>
+                    <span class="font-bold text-teal-600 dark:text-teal-400">${item.ans}</span>
+                </div>
+            `).join('');
+        }
+
+        function loadHistoryExpr(val) {
+            calcInput.value = val;
+            playTone(400, 'sine', 0.04);
+            showToast(`Loaded ${val} into Display`);
+        }
+
+        function clearCalcHistory() {
+            calcHistory = [];
+            localStorage.removeItem("calc_history");
+            renderCalcHistory();
+            showToast("Calculation History Cleared");
+        }
+
+        function toggleCalcTape() {
+            const panel = document.getElementById("calc-history-panel");
+            const txt = document.getElementById("tapeToggleText");
+            panel.classList.toggle("hidden");
+            txt.textContent = panel.classList.contains("hidden") ? "Show History Tape" : "Hide History Tape";
+        }
+
+        function copyCalcResult() {
+            const val = calcInput.value || "0";
+            navigator.clipboard.writeText(val);
+            showToast(`Copied ${val} to clipboard!`);
+        }
+
+        // Mini Calculator (Dashboard)
+        function miniCalcInput(val) {
+            playTone(400, 'sine', 0.04);
+            const disp = document.getElementById("mini-calc-display");
+            if (val === "C") {
+                disp.value = "0";
+            } else if (val === "=") {
+                try {
+                    // eslint-disable-next-line no-eval
+                    disp.value = Function(`'use strict'; return (${disp.value})`)();
+                } catch {
+                    disp.value = "Error";
+                }
+            } else {
+                if (disp.value === "0" && !isNaN(val)) {
+                    disp.value = val;
+                } else {
+                    disp.value += val;
+                }
+            }
+        }
+
+        /* -------------------------------------------------------------
+           5. DICE ROLL SIMULATOR (Projects/Dice-Roll/script.js)
+           ------------------------------------------------------------- */
+        const diceEl = document.getElementById("dice");
+        const rollBtnEl = document.getElementById("roll-button");
+        const rollHistoryEl = document.getElementById("roll-history");
+        let activeDiceCount = 1;
+        let diceHistoryList = JSON.parse(localStorage.getItem("dice_history") || "[]");
+
+        function getDiceFace(num) {
+            switch (num) {
+                case 1: return "&#9856;";
+                case 2: return "&#9857;";
+                case 3: return "&#9858;";
+                case 4: return "&#9859;";
+                case 5: return "&#9860;";
+                case 6: return "&#9861;";
+                default: return "&#9856;";
+            }
+        }
+
+        function changeDiceCount(count) {
+            activeDiceCount = parseInt(count, 10);
+            renderDiceCluster();
+            showToast(`Configured ${activeDiceCount} ${activeDiceCount > 1 ? 'Dice' : 'Die'}`);
+        }
+
+        function renderDiceCluster() {
+            const container = document.getElementById("diceClusterContainer");
+            container.innerHTML = "";
+            for (let i = 0; i < activeDiceCount; i++) {
+                const die = document.createElement("div");
+                die.id = `dice-unit-${i}`;
+                die.className = "dice text-7xl sm:text-8xl text-amber-600 dark:text-amber-400 select-none drop-shadow transition-transform";
+                die.innerHTML = getDiceFace(Math.floor(Math.random() * 6) + 1);
+                container.appendChild(die);
+            }
+        }
+
+        function rollStandaloneDice(isMini = false) {
+            playDiceRollSound();
+
+            if (isMini) {
+                const miniDice = document.getElementById("mini-dice-visual");
+                const miniText = document.getElementById("mini-dice-result-text");
+                miniDice.classList.add("animate-roll-3d");
+                setTimeout(() => {
+                    miniDice.classList.remove("animate-roll-3d");
+                    const val = Math.floor(Math.random() * 6) + 1;
+                    miniDice.innerHTML = getDiceFace(val);
+                    miniText.textContent = `Current Face: ${val} (${getDiceFace(val)})`;
+                    diceHistoryList.unshift({ rolls: [val], sum: val, time: new Date().toLocaleTimeString() });
+                    updateDiceHistoryUI();
+                }, 850);
+                return;
+            }
+
+            // Animate each active die in cluster
+            const diceUnits = document.querySelectorAll("#diceClusterContainer .dice");
+            diceUnits.forEach(die => die.classList.add("animate-roll-3d"));
+            rollBtnEl.disabled = true;
+
+            setTimeout(() => {
+                diceUnits.forEach(die => die.classList.remove("animate-roll-3d"));
+                rollBtnEl.disabled = false;
+
+                const results = [];
+                let sum = 0;
+
+                diceUnits.forEach((die) => {
+                    const result = Math.floor(Math.random() * 6) + 1;
+                    die.innerHTML = getDiceFace(result);
+                    results.push(result);
+                    sum += result;
+                });
+
+                diceHistoryList.unshift({
+                    rolls: results,
+                    sum: sum,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                });
+
+                if (diceHistoryList.length > 50) diceHistoryList.pop();
+                localStorage.setItem("dice_history", JSON.stringify(diceHistoryList));
+
+                // Update summary stats
+                document.getElementById("stat-last-sum").textContent = results.join(" + ");
+                document.getElementById("stat-total-sum").textContent = sum;
+                document.getElementById("stat-roll-count").textContent = diceHistoryList.length;
+
+                updateDiceHistoryUI();
+            }, 850);
+        }
+
+        rollBtnEl.addEventListener("click", () => rollStandaloneDice(false));
+
+        function updateDiceHistoryUI() {
+            rollHistoryEl.innerHTML = "";
+            document.getElementById("history-badge-count").textContent = `${diceHistoryList.length} rolls`;
+            
+            if (!diceHistoryList.length) {
+                rollHistoryEl.innerHTML = `<li class="text-xs text-slate-400 italic py-4 text-center">No dice rolls logged yet. Click "Roll Dice"!</li>`;
+                return;
+            }
+
+            diceHistoryList.forEach((entry, idx) => {
+                const li = document.createElement("li");
+                li.className = "flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 hover:border-amber-500 transition shadow-sm";
+                
+                const facesHtml = entry.rolls.map(r => `<span class="text-2xl text-amber-600 dark:text-amber-400">${getDiceFace(r)}</span>`).join(' ');
+                
+                li.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-xs text-slate-400">#${diceHistoryList.length - idx}</span>
+                        <span class="text-xs font-semibold text-slate-700 dark:text-slate-300">Sum: ${entry.sum}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        ${facesHtml}
+                        <span class="text-[10px] font-mono text-slate-400">(${entry.rolls.join('+')})</span>
+                    </div>
+                `;
+                rollHistoryEl.appendChild(li);
+            });
+        }
+
+        function clearDiceHistory() {
+            diceHistoryList = [];
+            localStorage.removeItem("dice_history");
+            document.getElementById("stat-total-sum").textContent = "0";
+            document.getElementById("stat-roll-count").textContent = "0";
+            updateDiceHistoryUI();
+            showToast("Dice Roll Logs Reset");
+        }
+
+        /* -------------------------------------------------------------
+           6. ANIMATED SEARCH BAR (Projects/Search_bar/Js/script.js)
+           ------------------------------------------------------------- */
+        const searchContainerEl = document.querySelector(".search-bar-container");
+        const magnifierEl = document.querySelector(".magnifier");
+        const mainSearchInput = document.getElementById("mainSearchInput");
+        let activeCategoryFilter = "all";
+        let recentSearches = JSON.parse(localStorage.getItem("recent_searches") || "[\"JavaScript\", \"CSS Animations\", \"DOM Events\"]");
+
+        // Toggle Expand/Collapse (Repository signature behavior)
+        magnifierEl.addEventListener("click", () => {
+            playTone(500, 'sine', 0.04);
+            searchContainerEl.classList.toggle("collapsed");
+            if (!searchContainerEl.classList.contains("collapsed")) {
+                mainSearchInput.focus();
+            }
+        });
+
+        // Live filtered search with Debounce
+        let searchDebounceTimer;
+        mainSearchInput.addEventListener("input", (e) => {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                renderSearchResults(e.target.value);
+            }, 120);
+        });
+
+        mainSearchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" && mainSearchInput.value.trim()) {
+                saveRecentSearch(mainSearchInput.value.trim());
+            }
+        });
+
+        function filterCategory(cat) {
+            activeCategoryFilter = cat;
+            playTone(420, 'sine', 0.04);
+            renderSearchResults(mainSearchInput.value);
+            showToast(`Filtered: ${cat.toUpperCase()}`);
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, `<mark class="bg-emerald-200 dark:bg-emerald-900/80 text-emerald-900 dark:text-emerald-100 px-0.5 rounded">$1</mark>`);
+        }
+
+        function renderSearchResults(query = "") {
+            const list = document.getElementById("searchResultsList");
+            const q = query.toLowerCase().trim();
+
+            const filtered = SEARCH_CATALOG.filter(item => {
+                const matchCat = activeCategoryFilter === "all" || item.category === activeCategoryFilter;
+                const matchText = !q || item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+                return matchCat && matchText;
+            });
+
+            document.getElementById("resultsCountBadge").textContent = filtered.length;
+
+            if (!filtered.length) {
+                list.innerHTML = `
+                    <div class="text-center py-8 text-slate-400">
+                        <i class="fa-solid fa-folder-open text-2xl mb-2 block"></i>
+                        No matching topics found for "<strong>${escapeHtml(query)}</strong>".
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = filtered.map(item => `
+                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700/60 hover:border-emerald-500 transition group flex items-start justify-between">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">${item.category}</span>
+                            <h4 class="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                                ${highlightMatch(item.title, q)}
+                            </h4>
+                        </div>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">${highlightMatch(item.desc, q)}</p>
+                    </div>
+                    <button onclick="saveRecentSearch('${item.title}'); showToast('Selected: ${item.title}')" class="text-slate-400 hover:text-emerald-500 p-1 text-xs">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function saveRecentSearch(term) {
+            if (!recentSearches.includes(term)) {
+                recentSearches.unshift(term);
+                if (recentSearches.length > 6) recentSearches.pop();
+                localStorage.setItem("recent_searches", JSON.stringify(recentSearches));
+                renderRecentSearches();
+            }
+        }
+
+        function renderRecentSearches() {
+            const container = document.getElementById("recentSearchesChips");
+            if (!recentSearches.length) {
+                container.innerHTML = `<span class="text-xs text-slate-400 italic">No search history</span>`;
+                return;
+            }
+            container.innerHTML = recentSearches.map(s => `
+                <button onclick="applyRecentSearch('${s}')" class="px-2.5 py-1 rounded-full text-xs bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-100 dark:hover:bg-emerald-950 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-clock-rotate-left text-[10px] text-slate-400"></i> ${s}
+                </button>
+            `).join('');
+        }
+
+        function applyRecentSearch(term) {
+            mainSearchInput.value = term;
+            renderSearchResults(term);
+            playTone(450, 'sine', 0.04);
+        }
+
+        function clearRecentSearches() {
+            recentSearches = [];
+            localStorage.removeItem("recent_searches");
+            renderRecentSearches();
+            showToast("Search History Cleared");
+        }
+
+        function triggerVoiceSearch() {
+            playTone(600, 'sine', 0.08);
+            const micBtn = document.getElementById("micIconStatus");
+            
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showToast("Speech Recognition not supported in this browser", true);
+                return;
+            }
+
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+
+            recognition.onstart = () => {
+                micBtn.className = "fa-solid fa-microphone-lines text-rose-500 animate-pulse";
+                showToast("Listening... Speak now");
+            };
+
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                mainSearchInput.value = speechResult;
+                renderSearchResults(speechResult);
+                saveRecentSearch(speechResult);
+                showToast(`Heard: "${speechResult}"`);
+            };
+
+            recognition.onerror = () => {
+                micBtn.className = "fa-solid fa-microphone text-slate-400";
+                showToast("Voice input failed or timed out", true);
+            };
+
+            recognition.onend = () => {
+                micBtn.className = "fa-solid fa-microphone text-slate-400";
+            };
+
+            recognition.start();
+        }
+
+        function handleMiniSearch(val) {
+            const chips = document.getElementById("mini-search-chips");
+            if (!val.trim()) {
+                chips.innerHTML = `
+                    <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-[11px]">JavaScript</span>
+                    <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 text-[11px]">CSS Grid</span>
+                    <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 text-[11px]">DOM Events</span>
+                `;
+            } else {
+                chips.innerHTML = `<span class="px-2.5 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold">Filtering for "${escapeHtml(val)}"</span>`;
+            }
+        }
+
+        /* -------------------------------------------------------------
+           7. TESTIMONIAL SLIDER (Projects/Slider/Js/index.js)
+           ------------------------------------------------------------- */
+        let testimonials = JSON.parse(localStorage.getItem("stored_testimonials") || "null");
+        
+        if (!testimonials) {
+            testimonials = [
+                {
+                    name: "Cherise G",
+                    photoUrl: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80",
+                    text: "This is simply unbelievable! I would be lost without Apple. The very best. Not able to tell you how happy I am with Apple."
+                },
+                {
+                    name: "Rosetta Q",
+                    photoUrl: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80",
+                    text: "I would also like to say thank you to all your staff. Wow what great service, I love it! Apple impressed me on multiple levels."
+                },
+                {
+                    name: "Constantine V",
+                    photoUrl: "https://images.unsplash.com/photo-1628157588553-5eeea00af15c?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=880&q=80",
+                    text: "Thank you for making it painless, pleasant and most of all hassle free! I wish I would have thought of it first. The very best."
+                }
+            ];
+        }
+
+        let slideIdx = 0;
+        let sliderTimer = null;
+        let sliderAutoplay = true;
+        let progressInterval = null;
+        let progressPercent = 0;
+
+        const sliderImgEl = document.getElementById("testimonial-avatar");
+        const sliderTextEl = document.getElementById("testimonial-text");
+        const sliderAuthorEl = document.getElementById("testimonial-author");
+
+        function updateTestimonialDisplay(animate = true) {
+            if (!testimonials.length) return;
+            const current = testimonials[slideIdx];
+
+            if (animate) {
+                sliderImgEl.style.opacity = '0';
+                sliderTextEl.style.opacity = '0';
+                setTimeout(() => {
+                    sliderImgEl.src = current.photoUrl;
+                    sliderTextEl.innerText = `"${current.text}"`;
+                    sliderAuthorEl.innerText = current.name;
+                    sliderImgEl.style.opacity = '1';
+                    sliderTextEl.style.opacity = '1';
+                }, 150);
+            } else {
+                sliderImgEl.src = current.photoUrl;
+                sliderTextEl.innerText = `"${current.text}"`;
+                sliderAuthorEl.innerText = current.name;
+            }
+
+            // Sync mini slider preview
+            document.getElementById("mini-slider-img").src = current.photoUrl;
+            document.getElementById("mini-slider-name").innerText = current.name;
+            document.getElementById("mini-slider-text").innerText = `"${current.text}"`;
+
+            renderSliderDots();
+            resetProgressBar();
+        }
+
+        function resetProgressBar() {
+            clearInterval(progressInterval);
+            progressPercent = 0;
+            const bar = document.getElementById("slider-progress-bar");
+            if (!bar) return;
+            bar.style.width = "0%";
+
+            if (sliderAutoplay) {
+                const stepTime = 100; // 100ms * 100 = 10,000ms (10s as in repo)
+                progressInterval = setInterval(() => {
+                    progressPercent += 1;
+                    bar.style.width = `${progressPercent}%`;
+                    if (progressPercent >= 100) {
+                        clearInterval(progressInterval);
+                    }
+                }, stepTime);
+            }
+        }
+
+        function startSliderTimer() {
+            clearTimeout(sliderTimer);
+            if (!sliderAutoplay) return;
+            sliderTimer = setTimeout(() => {
+                nextTestimonial(true);
+            }, 10000);
+        }
+
+        function nextTestimonial(isAuto = false) {
+            slideIdx = (slideIdx + 1) % testimonials.length;
+            if (!isAuto) playTone(420, 'sine', 0.04);
+            updateTestimonialDisplay(true);
+            startSliderTimer();
+        }
+
+        function prevTestimonial() {
+            slideIdx = (slideIdx - 1 + testimonials.length) % testimonials.length;
+            playTone(390, 'sine', 0.04);
+            updateTestimonialDisplay(true);
+            startSliderTimer();
+        }
+
+        function jumpToSlide(idx) {
+            slideIdx = idx;
+            playTone(440, 'sine', 0.04);
+            updateTestimonialDisplay(true);
+            startSliderTimer();
+        }
+
+        function toggleSliderAutoplay() {
+            sliderAutoplay = !sliderAutoplay;
+            const btnText = document.getElementById("sliderPlayText");
+            const btnIcon = document.getElementById("sliderPlayIcon");
+
+            if (sliderAutoplay) {
+                btnText.textContent = "Autoplay Active (10s)";
+                btnIcon.className = "fa-solid fa-pause";
+                startSliderTimer();
+                resetProgressBar();
+                showToast("Testimonial Autoplay Resumed");
+            } else {
+                btnText.textContent = "Autoplay Paused";
+                btnIcon.className = "fa-solid fa-play";
+                clearTimeout(sliderTimer);
+                clearInterval(progressInterval);
+                document.getElementById("slider-progress-bar").style.width = "0%";
+                showToast("Testimonial Autoplay Paused");
+            }
+        }
+
+        function renderSliderDots() {
+            const container = document.getElementById("testimonial-indicators");
+            container.innerHTML = testimonials.map((_, i) => `
+                <button onclick="jumpToSlide(${i})" class="w-3 h-3 rounded-full transition-all ${i === slideIdx ? 'bg-indigo-600 w-7' : 'bg-slate-300 dark:bg-slate-700 hover:bg-indigo-400'}"></button>
+            `).join('');
+        }
+
+        function renderTestimonialsGrid() {
+            const grid = document.getElementById("testimonialsListGrid");
+            document.getElementById("testimonialCountBadge").textContent = testimonials.length;
+
+            grid.innerHTML = testimonials.map((t, idx) => `
+                <div class="p-4 rounded-xl border ${idx === slideIdx ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/40' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60'} shadow-sm relative group flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="${escapeHtml(t.photoUrl)}" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <h4 class="font-bold text-xs text-slate-900 dark:text-white">${escapeHtml(t.name)}</h4>
+                                <span class="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold">Slide #${idx + 1}</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 italic line-clamp-3">"${escapeHtml(t.text)}"</p>
+                    </div>
+                    <div class="mt-3 pt-2 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs">
+                        <button onclick="jumpToSlide(${idx})" class="font-semibold text-indigo-600 dark:text-indigo-400 hover:underline">View</button>
+                        ${testimonials.length > 1 ? `<button onclick="deleteTestimonial(${idx})" class="text-red-400 hover:text-red-600"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteTestimonial(idx) {
+            if (testimonials.length <= 1) return;
+            testimonials.splice(idx, 1);
+            localStorage.setItem("stored_testimonials", JSON.stringify(testimonials));
+            if (slideIdx >= testimonials.length) slideIdx = 0;
+            updateTestimonialDisplay(false);
+            renderTestimonialsGrid();
+            showToast("Testimonial Removed");
+        }
+
+        function openNewTestimonialModal() {
+            document.getElementById("addTestimonialModal").classList.remove("hidden");
+        }
+
+        function closeNewTestimonialModal() {
+            document.getElementById("addTestimonialModal").classList.add("hidden");
+        }
+
+        function submitNewTestimonial(e) {
+            e.preventDefault();
+            const name = document.getElementById("modal-author-name").value.trim();
+            const photoUrl = document.getElementById("modal-photo-url").value.trim();
+            const text = document.getElementById("modal-text-content").value.trim();
+
+            if (!name || !photoUrl || !text) return;
+
+            testimonials.push({ name, photoUrl, text });
+            localStorage.setItem("stored_testimonials", JSON.stringify(testimonials));
+            closeNewTestimonialModal();
+            slideIdx = testimonials.length - 1;
+            updateTestimonialDisplay(true);
+            renderTestimonialsGrid();
+            showToast(`Added review from ${name}!`);
+        }
+
+        /* -------------------------------------------------------------
+           8. CODE EXPLORER & DOCS HUB
+           ------------------------------------------------------------- */
+        let activeFileKey = "Projects/Basic_Calculator/script.js";
+
+        function renderFileTree() {
+            const tree = document.getElementById("fileTreeContainer");
+            tree.innerHTML = Object.keys(REPO_FILES).map(k => {
+                const file = REPO_FILES[k];
+                const isSelected = k === activeFileKey;
+                const iconClass = file.type === "js" ? "fa-brands fa-js text-yellow-400" : (file.type === "markdown" ? "fa-brands fa-markdown text-blue-400" : "fa-solid fa-code text-teal-400");
+                
+                return `
+                    <button onclick="loadFileContent('${k}')" class="w-full text-left px-2.5 py-1.5 rounded-lg flex items-center gap-2 transition ${isSelected ? 'bg-purple-100 dark:bg-purple-950/80 text-purple-900 dark:text-purple-300 font-bold border border-purple-300 dark:border-purple-800' : 'hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'}">
+                        <i class="${iconClass} w-4"></i>
+                        <span class="truncate">${k}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function loadFileContent(k) {
+            activeFileKey = k;
+            const file = REPO_FILES[k];
+            document.getElementById("activeFileName").textContent = k;
+            document.getElementById("activeFileLength").textContent = `${file.code.length.toLocaleString()} characters`;
+            document.getElementById("activeCodeBlock").textContent = file.code;
+            document.getElementById("activeFileIcon").className = file.type === "js" ? "fa-brands fa-js text-yellow-400" : "fa-brands fa-markdown text-blue-400";
+            renderFileTree();
+            playTone(460, 'sine', 0.03);
+        }
+
+        function copyActiveCodeSnippet() {
+            const code = REPO_FILES[activeFileKey]?.code || "";
+            navigator.clipboard.writeText(code);
+            showToast(`Copied ${activeFileKey} to clipboard!`);
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        /* -------------------------------------------------------------
+           9. INITIAL APP BOOTSTRAP
+           ------------------------------------------------------------- */
+        window.addEventListener("DOMContentLoaded", () => {
+            renderCalcHistory();
+            renderDiceCluster();
+            updateDiceHistoryUI();
+            renderSearchResults();
+            renderRecentSearches();
+            updateTestimonialDisplay(false);
+            renderTestimonialsGrid();
+            startSliderTimer();
+            renderFileTree();
+            loadFileContent(activeFileKey);
+        });
+    </script>
+
+
+<!-- FlashLite Natural Link & Navigation Engine -->
+<script id="flashlite-real-link-engine">
+(function() {
+  'use strict';
+
+  function setupNaturalLinks() {
+    var links = document.querySelectorAll('a[href]');
+    
+    links.forEach(function(el) {
+      if (el.dataset.flashliteHandled === 'true') return;
+      el.dataset.flashliteHandled = 'true';
+
+      var href = (el.getAttribute('href') || '').trim();
+
+      // For external URLs: ensure safe opening in new tab
+      if (/^https?:\/\//i.test(href)) {
+        el.setAttribute('target', '_blank');
+        el.setAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  }
+
+  // Smooth anchor scrolling without preventing normal JS behavior
+  document.addEventListener('click', function(e) {
+    var target = e.target;
+    if (!(target instanceof Element)) return;
+    var link = target.closest('a[href]');
+    if (!link) return;
+
+    var href = (link.getAttribute('href') || '').trim();
+
+    // Anchor links (#id)
+    if (href.startsWith('#') && href.length > 1) {
+      var targetId = href.slice(1);
+      var targetElem = document.getElementById(targetId) || document.querySelector('[name="' + targetId + '"]');
+      if (targetElem) {
+        e.preventDefault();
+        targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
+
+    // External links: open in new tab if not already doing so
+    if (/^https?:\/\//i.test(href)) {
+      e.preventDefault();
+      window.open(href, '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    // Notice: For "#", "javascript:void(0)", buttons, or relative links,
+    // do NOT call e.preventDefault()! Allow the site's own JavaScript and components to execute naturally.
+  }, false);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNaturalLinks);
+  } else {
+    setupNaturalLinks();
+  }
+
+  try {
+    var observer = new MutationObserver(function() { setupNaturalLinks(); });
+    observer.observe(document.documentElement || document.body, { childList: true, subtree: true });
+  } catch(e) {}
+})();
+</script>
+
+</body>
+</html>
